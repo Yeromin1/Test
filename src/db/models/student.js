@@ -6,20 +6,29 @@ const studentsSchema = new Schema(
       type: String,
       required: true,
     },
-    phoneNumber: {
-      type: String,
+    age: {
+      type: Number,
       required: true,
     },
-    email: { type: String, required: false },
-    isFavourite: { type: Boolean, required: false, default: false },
-    contactType: {
+    gender: {
       type: String,
-      enum: ['work', 'home', 'personal'],
       required: true,
-      default: 'personal',
+      enum: ['male', 'female', 'other'],
+    },
+    avgMark: {
+      type: Number,
+      required: true,
+    },
+    onDuty: {
+      type: Boolean,
+      required: true,
+      default: false,
     },
   },
-  { timestamps: true },
+  {
+    timestamps: true,
+    versionKey: false,
+  },
 );
 
 export const StudentsCollection = model('students', studentsSchema);
