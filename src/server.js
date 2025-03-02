@@ -26,7 +26,7 @@ export const startServer = () => {
     const students = await getAllStudents();
     res.status(200).json({
       status: 200,
-      message: 'Successfully found contacts!',
+      message: 'Successfully found students!',
       data: students,
     });
   });
