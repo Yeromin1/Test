@@ -13,10 +13,20 @@ const PORT = Number(getEnvVar('PORT', '3000'));
 export const startServer = () => {
   const app = express();
 
+  app.use(
+    pino({
+      transport: {
+        target: 'pino-pretty',
+      },
+    }),
+  );
+  app.use(cors());
+
   app.get('/students', async (req, res) => {
     const students = await getAllStudents();
-
     res.status(200).json({
+      status: 200,
+      message: 'Successfully found contacts!',
       data: students,
     });
   });
@@ -33,24 +43,9 @@ export const startServer = () => {
     }
 
     res.status(200).json({
+      status: 200,
+      message: `Successfully found contact with id ${studentId}!`,
       data: student,
-    });
-  });
-
-  app.use(express.json());
-  app.use(cors());
-
-  app.use(
-    pino({
-      transport: {
-        target: 'pino-pretty',
-      },
-    }),
-  );
-
-  app.get('/', (req, res) => {
-    res.json({
-      message: 'Hello world!',
     });
   });
 
@@ -59,17 +54,6 @@ export const startServer = () => {
       message: 'Not found',
     });
   });
-
-  app.use((err, req, res, next) => {
-    res.status(500).json({
-      message: 'Something went wrong',
-      error: err.message,
-    });
-  });
-
-  app.get('/students', async (req, res) => {});
-
-  app.get('/students/:studentId', async (req, res) => {});
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
